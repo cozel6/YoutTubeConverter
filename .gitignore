@@ -408,3 +408,5 @@ FodyWeavers.xsd
 
 #yt-dlp
 */yt-dlp.exe
+frontend/package-lock.json
+frontend/package.json
