@@ -13,6 +13,16 @@ namespace YouTubeConverter
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            //cors
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", policy =>
+                {
+                    policy.WithOrigins("http://localhost:58653")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                });
+            });
 
             builder.Services.AddScoped<IQualitySelector, QualitySelector>();
             builder.Services.AddScoped<IConversionService, YtdlpConversionService>();
@@ -26,6 +36,7 @@ namespace YouTubeConverter
             }
 
             app.UseHttpsRedirection();
+            app.UseCors("AllowAll");
             app.MapControllers();
 
             app.Run();

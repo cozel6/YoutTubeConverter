@@ -2,8 +2,8 @@
 {
     public enum CustomVideoQuality
     {
-        Low,
-        Medium,
-        High
+        Low = 1,
+        Medium = 2,
+        High = 3
     }
 }
