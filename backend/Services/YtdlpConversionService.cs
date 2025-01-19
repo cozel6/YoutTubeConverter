@@ -8,9 +8,9 @@ namespace YouTubeConverter.Services
         private readonly IQualitySelector _qualitySelector;
 
         // Calea completă către yt-dlp.exe (sau doar "yt-dlp" dacă e în PATH).
-        private readonly string _ytDlpPath = @"M:\\Projects\\YoutTubeConverter\\YouTubeConverter\\yt-dlp.exe";
+        private readonly string _ytDlpPath = @"M:\Projects\YoutTubeConverter\backend\yt-dlp.exe";
 
-        private readonly string _ffmpegPath = @"M:\Projects\YoutTubeConverter\YouTubeConverter\ffmpeg\ffmpeg-N-118321-g4c96d6bf75-win64-gpl-shared\bin\\ffmpeg.exe";
+        private readonly string _ffmpegPath = @"M:\Projects\YoutTubeConverter\backend\ffmpeg\ffmpeg-N-118321-g4c96d6bf75-win64-gpl-shared\binffmpeg.exe";
 
         public YtdlpConversionService(IQualitySelector qualitySelector)
         {
