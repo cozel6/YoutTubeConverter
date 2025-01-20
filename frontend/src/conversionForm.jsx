@@ -18,11 +18,17 @@ const qualityOptions = [
 
 const ConversionForm = () => {
     const [youtubeUrl, setYoutubeUrl] = useState('');
-    const [quality, setQuality] = useState('3'); // Default value
+    const [quality, setQuality] = useState('3');
     const [loading, setLoading] = useState(false);
     const [resultMessage, setResultMessage] = useState('');
     const [downloadUrl, setDownloadUrl] = useState('');
     const [error, setError] = useState('');
+    const [fileName, setFileName] = useState('');
+
+    const isValidYoutubeUrl = (url) => {
+        const regex = /^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/;
+        return regex.test(url);
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -30,6 +36,12 @@ const ConversionForm = () => {
         setResultMessage('');
         setDownloadUrl('');
         setError('');
+
+        if (!isValidYoutubeUrl(youtubeUrl)) {
+            setError('Introdu un URL YouTube valid!');
+            setLoading(false);
+            return;
+        }
 
         try {
             const response = await axios.post('http://localhost:5213/api/Conversion', {
@@ -39,6 +51,7 @@ const ConversionForm = () => {
             if (response.data.success) {
                 setResultMessage(response.data.message);
                 setDownloadUrl(response.data.downloadUrl);
+                setFileName(response.data.fileName || 'video.mp4');
             } else {
                 setError(response.data.message);
             }
@@ -89,7 +102,7 @@ const ConversionForm = () => {
                 <Button
                     variant="contained"
                     type="submit"
-                    disabled={loading}
+                    disabled={loading || !youtubeUrl}
                     sx={{ mt: 2 }}
                 >
                     {loading ? 'Procesare...' : 'Converteste'}

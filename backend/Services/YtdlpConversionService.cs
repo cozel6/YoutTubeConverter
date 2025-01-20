@@ -94,9 +94,7 @@ namespace YouTubeConverter.Services
                 }
 
                 var finalExtension = ".mp4";
-                var finalFileName = Path.GetFileNameWithoutExtension(downloadedFile.Name)
-                                    + "_converted"
-                                    + finalExtension;
+                var finalFileName = Path.GetFileNameWithoutExtension(downloadedFile.Name) + "_converted" + finalExtension;
                 var finalFilePath = Path.Combine(tempFolder, finalFileName);
 
                 if (!downloadedFile.Extension.Equals(".mp4", StringComparison.OrdinalIgnoreCase))
@@ -143,6 +141,7 @@ namespace YouTubeConverter.Services
 
                 var destinationFileName = Path.GetFileName(finalFilePath);
                 var destinationFilePath = Path.Combine(downloadsFolder, destinationFileName);
+
                 if (File.Exists(destinationFilePath))
                     File.Delete(destinationFilePath);
 
@@ -151,11 +150,13 @@ namespace YouTubeConverter.Services
                 Directory.Delete(tempFolder, true);
 
                 var downloadUrl = $"http://localhost:5213/downloads/{destinationFileName}";
+
                 return new ConversionResponse
                 {
                     Success = true,
                     Message = "Conversie reușită cu yt-dlp!",
-                    DownloadUrl = downloadUrl
+                    DownloadUrl = downloadUrl,
+                    FileName = destinationFileName
                 };
             }
             catch (Exception ex)
