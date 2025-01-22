@@ -25,7 +25,6 @@ namespace YouTubeConverter.Controllers
             {
                 var downloadUrl = $"{Request.Scheme}://{Request.Host}/api/Conversion/{response.FileName}";
                 response.DownloadUrl = downloadUrl;
-                Console.WriteLine($"Generated download URL: {downloadUrl}");
                 return Ok(response);
 
             }
