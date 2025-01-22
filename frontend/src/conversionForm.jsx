@@ -18,7 +18,7 @@ const qualityOptions = [
 
 const ConversionForm = () => {
     const [youtubeUrl, setYoutubeUrl] = useState('');
-    const [quality, setQuality] = useState('3');
+    const [quality, setQuality] = useState('1'); //def value
     const [loading, setLoading] = useState(false);
     const [resultMessage, setResultMessage] = useState('');
     const [downloadUrl, setDownloadUrl] = useState('');
@@ -113,7 +113,7 @@ const ConversionForm = () => {
                     {resultMessage}
                     {downloadUrl && (
                         <Box mt={1}>
-                            <a href={downloadUrl} target="_blank" rel="noreferrer">
+                            <a href={downloadUrl} download={fileName}>
                                 Descarcă videoclipul
                             </a>
                         </Box>

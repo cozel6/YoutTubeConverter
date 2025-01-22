@@ -23,7 +23,7 @@ namespace YouTubeConverter.Controllers
 
             if (response.Success)
             {
-                var downloadUrl = $"{Request.Scheme}://{Request.Host}/downloads/{response.FileName}";
+                var downloadUrl = $"{Request.Scheme}://{Request.Host}/api/Conversion/{response.FileName}";
                 response.DownloadUrl = downloadUrl;
                 Console.WriteLine($"Generated download URL: {downloadUrl}");
                 return Ok(response);
@@ -36,14 +36,22 @@ namespace YouTubeConverter.Controllers
         [HttpGet("{fileName}")]
         public IActionResult DownloadFile(string fileName)
         {
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "downloads", fileName);
-
+            var filePath = Path.Combine(
+                Directory.GetCurrentDirectory(),
+                "wwwroot",
+                "downloads",
+                fileName
+            );
 
             if (!System.IO.File.Exists(filePath))
-                return NotFound("Fisierul nu exista");
-            var fileType = "application/octet-stream";
+                return NotFound("Fișierul nu există");
 
-            return PhysicalFile(filePath, fileType , fileName);
+            return File(
+                System.IO.File.OpenRead(filePath),
+                "application/octet-stream",
+                fileName
+            );
         }
+
     }
 }

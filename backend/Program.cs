@@ -34,7 +34,19 @@ namespace YouTubeConverter
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    var path = ctx.File.PhysicalPath;
+                    if (path.Contains("wwwroot\\downloads"))
+                    {
+                        ctx.Context.Response.Headers["Content-Disposition"] =
+                            "attachment; filename=\"" + Path.GetFileName(path) + "\"";
+                    }
+                }
+            });
+
 
             app.UseHttpsRedirection();
             app.UseCors("AllowAll");
