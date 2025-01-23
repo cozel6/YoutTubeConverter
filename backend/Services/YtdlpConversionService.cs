@@ -22,7 +22,7 @@ namespace YouTubeConverter.Services
             _ytDlpPath = _configuration["ConfigYtConverterPath:CurrnetDlpPath"] ?? throw new ArgumentNullException("Calea către yt-dlp nu este setată în appsettings.json.");
             _ffmpegPath = _configuration["ConfigYtConverterPath:CurrentFfmpegPath"] ?? throw new ArgumentNullException("Calea către ffmpeg nu este setată în appsettings.json");
             _downloadBaseUrl = _configuration["ConfigYtConverterPath:DownloadBaseUrl"] ?? throw new ArgumentNullException("URL-ul de download nu este setat în appsettings.json.");
-            _downloadFolderConfig = _configuration["ConfigYtConverterPath:DownloadFolder"] ?? throw new ArgumentNullException("Folderul de download nu este setat în appsettings.json.");
+            _downloadFolderConfig = _configuration["ConfigYtConverterPath:DownloadPath"] ?? throw new ArgumentNullException("Folderul de download nu este setat în appsettings.json.");
 
         }
 
