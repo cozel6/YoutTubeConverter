@@ -6,15 +6,21 @@ namespace YouTubeConverter.Services
     public class YtdlpConversionService : IConversionService
     {
         private readonly IQualitySelector _qualitySelector;
+        private readonly IConfiguration _configuration;
 
-        // Calea completă către yt-dlp.exe (sau doar "yt-dlp" dacă e în PATH).
-        private readonly string _ytDlpPath = @"M:\Projects\YoutTubeConverter\backend\yt-dlp.exe";
+        private readonly string _ytDlpPath;
 
-        private readonly string _ffmpegPath = @"M:\Projects\YoutTubeConverter\backend\ffmpeg\ffmpeg-N-118321-g4c96d6bf75-win64-gpl-shared\binffmpeg.exe";
+        private readonly string _ffmpegPath;
 
-        public YtdlpConversionService(IQualitySelector qualitySelector)
+        public YtdlpConversionService(IQualitySelector qualitySelector , IConfiguration configuration)
         {
             _qualitySelector = qualitySelector;
+            _configuration = configuration;
+
+
+            _ytDlpPath = _configuration["ConfigYtConverterPath:CurrnetDlpPath"] ?? throw new ArgumentNullException("Yt-dlp path is not set in appsettings.json");
+            _ffmpegPath = _configuration["ConfigYtConverterPath:CurrentFfmpegPath"] ?? throw new ArgumentNullException("Ffmpeg path is not set in appsettings.json");
+
         }
 
         public async Task<ConversionResponse> ConvertAsync(ConversionRequest request)
