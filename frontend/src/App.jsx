@@ -1,12 +1,12 @@
-import './App.css'
-import ConversionForm from "../src/conversionForm"
+import React from 'react';
+import { AppRouter } from './router/AppRouter';
 
-function App() {
-  return(
+export default function App() {
+  return (
     <div>
-      <ConversionForm />
+      {/*header, un meniu */}
+      <AppRouter />
+      {/* footer */}
     </div>
-  )
+  );
 }
-
-export default App
