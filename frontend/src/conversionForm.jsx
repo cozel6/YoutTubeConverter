@@ -18,7 +18,7 @@ const qualityOptions = [
 
 const ConversionForm = () => {
     const [youtubeUrl, setYoutubeUrl] = useState('');
-    const [quality, setQuality] = useState('1'); //def value
+    const [quality, setQuality] = useState(1); //def value
     const [loading, setLoading] = useState(false);
     const [resultMessage, setResultMessage] = useState('');
     const [downloadUrl, setDownloadUrl] = useState('');
