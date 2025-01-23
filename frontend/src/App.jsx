@@ -4,7 +4,7 @@ import { AppRouter } from './router/AppRouter';
 export default function App() {
   return (
     <div>
-      {/*header, un meniu */}
+      {/*header*/}
       <AppRouter />
       {/* footer */}
     </div>
