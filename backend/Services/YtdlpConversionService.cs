@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 using YouTubeConverter.Models;
 
 namespace YouTubeConverter.Services
@@ -9,17 +10,19 @@ namespace YouTubeConverter.Services
         private readonly IConfiguration _configuration;
 
         private readonly string _ytDlpPath;
-
         private readonly string _ffmpegPath;
+        private readonly string _downloadBaseUrl;
+        private readonly string _downloadFolderConfig;
 
-        public YtdlpConversionService(IQualitySelector qualitySelector , IConfiguration configuration)
+        public YtdlpConversionService(IQualitySelector qualitySelector, IConfiguration configuration)
         {
             _qualitySelector = qualitySelector;
             _configuration = configuration;
 
-
-            _ytDlpPath = _configuration["ConfigYtConverterPath:CurrnetDlpPath"] ?? throw new ArgumentNullException("Yt-dlp path is not set in appsettings.json");
-            _ffmpegPath = _configuration["ConfigYtConverterPath:CurrentFfmpegPath"] ?? throw new ArgumentNullException("Ffmpeg path is not set in appsettings.json");
+            _ytDlpPath = _configuration["ConfigYtConverterPath:CurrnetDlpPath"] ?? throw new ArgumentNullException("Calea către yt-dlp nu este setată în appsettings.json.");
+            _ffmpegPath = _configuration["ConfigYtConverterPath:CurrentFfmpegPath"] ?? throw new ArgumentNullException("Calea către ffmpeg nu este setată în appsettings.json");
+            _downloadBaseUrl = _configuration["ConfigYtConverterPath:DownloadBaseUrl"] ?? throw new ArgumentNullException("URL-ul de download nu este setat în appsettings.json.");
+            _downloadFolderConfig = _configuration["ConfigYtConverterPath:DownloadFolder"] ?? throw new ArgumentNullException("Folderul de download nu este setat în appsettings.json.");
 
         }
 
@@ -141,7 +144,7 @@ namespace YouTubeConverter.Services
                     File.Move(downloadedFile.FullName, finalFilePath);
                 }
 
-                var downloadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "downloads");
+                var downloadsFolder =  _downloadFolderConfig ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "downloads"); // to ensure that the folder exists
                 if (!Directory.Exists(downloadsFolder))
                     Directory.CreateDirectory(downloadsFolder);
 
@@ -155,7 +158,7 @@ namespace YouTubeConverter.Services
 
                 Directory.Delete(tempFolder, true);
 
-                var downloadUrl = $"http://localhost:5213/downloads/{destinationFileName}";
+                var downloadUrl = $"{_downloadBaseUrl}/{destinationFileName}";
 
                 return new ConversionResponse
                 {
