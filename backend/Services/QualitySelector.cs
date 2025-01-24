@@ -6,13 +6,12 @@ namespace YouTubeConverter.Services
     {
         public string GetFormatParameter(CustomVideoQuality quality)
         {
-
             return quality switch
             {
-                CustomVideoQuality.Low => "bv*[height<=480]+ba/b",
-                CustomVideoQuality.Medium => "bv*[height<=720]+ba/b",
-                CustomVideoQuality.High => "bv*[height<=1080]+ba/b",
-                _ => "bv*+ba/b" //
+                CustomVideoQuality.Low => "bestvideo[height<=480][ext=mp4]+bestaudio[ext=m4a]/best[height<=480][ext=mp4]",
+                CustomVideoQuality.Medium => "bestvideo[height<=720][ext=mp4]+bestaudio[ext=m4a]/best[height<=720][ext=mp4]",
+                CustomVideoQuality.High => "bestvideo[height<=1080][ext=mp4]+bestaudio[ext=m4a]/best[height<=1080][ext=mp4]",
+                _ => "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]"
             };
         }
     }

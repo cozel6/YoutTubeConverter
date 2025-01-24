@@ -49,6 +49,9 @@ namespace YouTubeConverter.Services
                 var ytdlpArgs =
                     $"-f \"{formatParam}\" " +
                     $"--restrict-filenames --no-warnings " +
+                    $"--ffmpeg-location \"{Path.GetDirectoryName(_ffmpegPath)}\" " +
+                    "--merge-output-format mp4 " +
+                    //"--extract-audio " + // not needed anymore processing the file with ffmpeg
                     $"-o \"{outputPattern}\" " +
                     $"\"{request.YouTubeUrl}\"";
 
@@ -108,7 +111,7 @@ namespace YouTubeConverter.Services
 
                 if (!downloadedFile.Extension.Equals(".mp4", StringComparison.OrdinalIgnoreCase))
                 {
-                    var ffmpegArgs = $"-i \"{downloadedFile.FullName}\" -c copy \"{finalFilePath}\"";
+                    var ffmpegArgs = $"-i \"{downloadedFile.FullName}\" -c:v copy -c:a aac -b:a 192k \"{finalFilePath}\"";
                     var ffmpegStart = new ProcessStartInfo
                     {
                         FileName = _ffmpegPath,
