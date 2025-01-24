@@ -8,8 +8,10 @@ import {
   Typography,
   Box,
   Alert,
+  CircularProgress,
 } from '@mui/material';
 import { convertVideo } from '../api/conversionApi';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 const qualityOptions = [
   { value: 1, label: 'Low' },
@@ -62,14 +64,22 @@ export default function ConversionForm() {
   }
 
   return (
-    <Container maxWidth="xs" sx={{ mt: 12 }}>
+    <Container maxWidth="sm" sx={{ mt: 12 }}>
       <Typography variant="h4" gutterBottom>
         YouTube Converter
       </Typography>
       <Box
         component="form"
         onSubmit={handleSubmit}
-        sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+        sx={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          gap: 3,
+          backgroundColor: '#f8f9fa',
+          padding: 4,
+          borderRadius: 2,
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+        }}
       >
         <TextField
           label="YouTube URL"
@@ -78,11 +88,11 @@ export default function ConversionForm() {
           required
           onChange={(e) => setYoutubeUrl(e.target.value)}
         />
-
+ 
         <TextField
           select
           label="Quality"
-          variant="outlined"
+          variant="outlined" 
           value={quality}
           required
           onChange={(e) => setQuality(Number(e.target.value))}
@@ -93,37 +103,67 @@ export default function ConversionForm() {
             </MenuItem>
           ))}
         </TextField>
-
-        <Button variant="contained" type="submit" disabled={loading || !youtubeUrl}>
-          {loading ? 'Processing...' : 'Convert'}
-        </Button>
-      </Box>
-
-      {resultMessage && (
-        <Alert
-          severity="success"
-          sx={{
-            mt: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+ 
+        <Button 
+          variant="contained"
+          type="submit"
+          disabled={loading || !youtubeUrl}
+          sx={{ 
+            height: 48,
+            position: 'relative',
+            backgroundColor: '#1976d2'
           }}
         >
-          {resultMessage}
-          {downloadUrl && (
-            <Box mt={1}>
-              <a href={downloadUrl} download={fileName}>
-                Download video
-              </a>
+          {loading ? (
+            <Box sx={{ 
+              display: 'flex', 
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '100%',
+              height: '100%'
+            }}>
+              <CircularProgress 
+                size={30}
+                sx={{ color: 'white' }}
+              />
             </Box>
-          )}
-        </Alert>
-      )}
-      {error && (
-        <Alert severity="error" sx={{ mt: 2 }}>
-          {error}
-        </Alert>
-      )}
+          ) : 'CONVERT'}
+        </Button>
+ 
+        {resultMessage && (
+          <Box sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            backgroundColor: '#e8f5e9',
+            padding: '16px 24px',
+            borderRadius: 1
+          }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <CheckCircleIcon sx={{ color: 'success.main' }} />
+              <Typography>{resultMessage}</Typography>
+            </Box>
+            <Button
+              href={downloadUrl}
+              download={fileName}
+              variant="contained"
+              color="success"
+              sx={{ 
+                minWidth: 'auto',
+                textTransform: 'uppercase'
+              }}
+            >
+              Download video
+            </Button>
+          </Box>
+        )}
+ 
+        {error && (
+          <Alert severity="error">
+            {error}
+          </Alert>
+        )}
+      </Box>
     </Container>
-  );
+ );
 }
